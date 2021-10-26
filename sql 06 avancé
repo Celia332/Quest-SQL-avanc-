@@ -1,0 +1,48 @@
+
+1. Retourne le nom des équipes et le nombre de joueurs par équipe, le tout classé par nombre de joueurs par équipe, de la plus nombreuse à la moins nombreuse.
+
+
+mysql> SELECT name, COUNT(*) AS player
+    -> FROM player
+    -> JOIN team ON team.id=team_id
+    -> GROUP BY name
+    -> ORDER BY player DESC;
++------------+--------+
+| name       | player |
++------------+--------+
+| Gryffindor |     36 |
+| Slytherin  |     21 |
+| Ravenclaw  |     15 |
+| Hufflepuff |     12 |
++------------+--------+
+
+
+2. Retourne uniquement les noms des équipes complètes (ayant 14 joueurs ou plus, c’est-à- dire 7 joueurs et 7 remplaçants minimum), classés par ordre alphabétique.
+mysql> SELECT name, COUNT(*) AS player  FROM player  JOIN team ON team.id=team_id GROUP BY team_id
+ HAVING player>=14 ORDER BY name asc;
++------------+--------+
+| name       | player |
++------------+--------+
+| Gryffindor |     36 |
+| Ravenclaw  |     15 |
+| Slytherin  |     21 |
++------------+--------+
+
+
+mysql> SELECT firstname, lastname 
+    -> FROM player 
+    -> JOIN wizard ON wizard.id=wizard_id
+    -> JOIN team ON team.id=team_id
+    -> WHERE DAYOFWEEK(enrollment_date)=2 AND name='Gryffindor'
+    -> ORDER BY enrollment_date;
++-----------+------------+
+| firstname | lastname   |
++-----------+------------+
+| George    | Weasley    |
+| Alice     | Longbottom |
+| Cadogan   |            |
+| Godric    | Gryffindor |
+| Sirius    | Black      |
+| Aberforth | Dumbledore |
+| Augusta   | Longbottom |
++-----------+------------+
